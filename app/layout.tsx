@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
+import { Figtree } from "next/font/google";
 import "./globals.css";
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
 });
 
@@ -129,19 +130,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={jetbrainsMono.variable} suppressHydrationWarning>
+    <html lang="en" className={figtree.variable} suppressHydrationWarning>
       <head>
-        <script
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
         />
         <JsonLd data={websiteSchema} />
         <JsonLd data={organizationSchema} />
       </head>
-      <body className="font-mono antialiased">
+      <body className="font-sans antialiased text-[15px] text-foreground tracking-tight">
         <Providers>
           <div className="flex min-h-screen flex-col">
             <SiteHeader />
-            <main className="mx-auto w-full max-w-[1440px] flex-1 px-6 py-6 lg:px-10">
+            <main className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-6 lg:px-8 py-6">
               {children}
             </main>
             <SiteFooter />

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { auth, signOut } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { roleAtLeast } from "@/lib/rbac";
 import { NavLinks, type NavItem } from "@/components/site/nav-links";
 import { MobileNav } from "@/components/site/mobile-nav";
@@ -12,14 +11,6 @@ import { CommandPalette } from "@/components/site/command-palette";
 export async function SiteHeader() {
   const session = await auth();
   const role = session?.user?.role;
-  const today = new Date();
-  const stamp = today
-    .toLocaleDateString("en-LK", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    })
-    .toUpperCase();
 
   const navItems: NavItem[] = [
     { href: "/offers", label: "Offers" },
@@ -40,31 +31,20 @@ export async function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="mx-auto flex h-7 w-full max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-10 text-[10px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-muted-foreground">
-        <div className="flex min-w-0 items-center gap-3 truncate">
-          <span className="num shrink-0">{stamp}</span>
-          <span aria-hidden className="hidden sm:inline">·</span>
-          <span className="hidden sm:inline">Colombo</span>
-          <span aria-hidden className="hidden md:inline">·</span>
-          <span className="hidden md:inline">Vol 01 / Iss 01</span>
-        </div>
-        <div className="flex shrink-0 items-center gap-3">
-          <span className="hidden md:inline">Sri Lanka Card Offers Wire</span>
-          <span className="size-1.5 rounded-full bg-primary" aria-hidden />
-        </div>
-      </div>
-      <Separator />
-      <div className="relative mx-auto flex h-14 w-full max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 sm:gap-6 lg:px-10">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-8">
-          <Link href="/" className="flex items-baseline gap-3">
-            <span className="text-base sm:text-lg font-semibold tracking-[-0.01em] text-foreground whitespace-nowrap">
-              LK / Card Offers
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-8 h-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-sm transition-transform group-hover:scale-105">
+              L
+            </div>
+            <span className="text-lg font-semibold text-foreground tracking-tight whitespace-nowrap">
+              LkCardOffers
             </span>
           </Link>
           <NavLinks items={navItems} />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <CommandPalette />
           <ThemeToggle />
           {session?.user ? (
@@ -75,16 +55,16 @@ export async function SiteHeader() {
               signOutAction={signOutAction}
             />
           ) : (
-            <>
+            <div className="flex items-center gap-2">
               <Link href="/login" className="hidden xs:inline-block">
-                <Button variant="ghost" size="sm">
-                  Sign in
+                <Button variant="ghost" className="h-9 rounded-full px-5">
+                  Log in
                 </Button>
               </Link>
               <Link href="/register">
-                <Button size="sm">Sign up</Button>
+                <Button className="h-9 rounded-full px-5">Sign up</Button>
               </Link>
-            </>
+            </div>
           )}
           <MobileNav items={navItems} />
         </div>

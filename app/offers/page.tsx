@@ -79,24 +79,18 @@ export default async function OffersPage({
     <div className="space-y-6">
       <header className="flex items-end justify-between gap-4 border-b border-border pb-4">
         <div>
-          <div className="section-label mb-2">Catalog</div>
-          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
             All offers
           </h1>
         </div>
-        <div className="shrink-0 text-right text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:tracking-[0.22em]">
-          <div className="num text-foreground text-base font-medium">
-            {total.toString().padStart(3, "0")}
-          </div>
-          <div>results</div>
-        </div>
+
       </header>
 
       <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
         <OfferFilters />
         <div className="space-y-6">
           {items.length === 0 ? (
-            <div className="border border-dashed border-border bg-muted/20 p-12 text-center">
+            <div className="border border-dashed border-border bg-muted/20 p-12 text-center rounded-2xl">
               <p className="text-xs text-muted-foreground">
                 No offers match your filters.
               </p>
@@ -124,7 +118,7 @@ export default async function OffersPage({
                   Page {page} / {totalPages}
                 </span>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {items.map((offer, i) => (
                   <OfferCard
                     key={offer.id}
@@ -144,7 +138,7 @@ export default async function OffersPage({
             />
           )}
 
-          <Disclaimer />
+
         </div>
       </div>
     </div>

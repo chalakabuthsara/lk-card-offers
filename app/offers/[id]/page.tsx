@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Disclaimer } from "@/components/site/disclaimer";
 import { JsonLd } from "@/components/site/json-ld";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
 export const revalidate = 300;
 
@@ -59,13 +61,11 @@ export async function generateMetadata({
 }
 
 function formatDate(d: string) {
-  return new Date(d)
-    .toLocaleDateString("en-LK", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    })
-    .toUpperCase();
+  return new Date(d).toLocaleDateString("en-LK", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 }
 
 function daysLeft(end: string) {
@@ -148,119 +148,154 @@ export default async function OfferDetailPage({
   };
 
   return (
-    <article className="mx-auto max-w-4xl space-y-8">
+    <article className="mx-auto max-w-5xl space-y-8">
       <JsonLd data={articleSchema} />
       <JsonLd data={breadcrumbSchema} />
 
-      <Link
-        href="/offers"
-        className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:text-foreground"
-      >
-        ← Back to offers
-      </Link>
+      <nav className="mb-4">
+        <Link
+          href="/offers"
+          className="inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        >
+          ← Back to offers
+        </Link>
+      </nav>
 
-      <header className="space-y-4 border-b border-border pb-6">
-        <div className="flex flex-wrap items-center gap-2">
-          {offer.category && (
-            <Badge variant="outline" className="text-[10px] uppercase tracking-wider">
-              {offer.category.name}
-            </Badge>
-          )}
-          <Badge variant="secondary" className="text-[10px] uppercase tracking-wider">
-            {offer.status}
-          </Badge>
-          {remaining > 0 ? (
-            <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              <span className="num text-foreground">{remaining}</span> days remaining
-            </span>
-          ) : (
-            <span className="text-[10px] uppercase tracking-[0.22em] text-destructive">
-              Expired
-            </span>
-          )}
-        </div>
-        {offer.merchant && (
-          <div className="section-label">{offer.merchant.name}</div>
-        )}
-        <h1 className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl">
-          {offer.title}
-        </h1>
-        <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground num">
-          Valid {formatDate(offer.startDate)} → {formatDate(offer.endDate)}
-        </p>
-      </header>
+      <div className="grid gap-8 lg:grid-cols-12 lg:gap-12 items-start">
+        {/* Main Content: Left Column (spans 7 or 8 columns) */}
+        <div className="lg:col-span-8 space-y-8">
+          <header className="space-y-4">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              {offer.category && (
+                <Badge variant="secondary" className="rounded-full px-3 py-1 font-medium bg-secondary text-secondary-foreground">
+                  {offer.category.name}
+                </Badge>
+              )}
+            </div>
+            
+            <h1 className="text-balance text-2xl font-semibold leading-tight tracking-tight md:text-3xl lg:text-4xl">
+              {offer.title}
+            </h1>
 
-      {offer.imageUrl && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={offer.imageUrl}
-          alt={offer.title}
-          className="aspect-[16/9] w-full border border-border object-cover"
-          loading="lazy"
-        />
-      )}
-
-      <div className="grid gap-8 md:grid-cols-3">
-        <div className="md:col-span-2">
-          <div className="section-label mb-3">Details</div>
-          <p className="whitespace-pre-line text-sm leading-relaxed">
-            {offer.description}
-          </p>
-          <div className="mt-6">
-            <a href={offer.sourceUrl} target="_blank" rel="noreferrer">
-              <Button variant="outline">
-                View official source ↗
-              </Button>
-            </a>
-          </div>
-        </div>
-
-        <aside className="space-y-6 border-t border-border pt-6 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-          <section>
-            <div className="section-label mb-3">Eligible banks</div>
-            {offer.banks.length ? (
-              <ul className="space-y-1">
-                {offer.banks.map((b) => (
-                  <li
-                    key={b.id}
-                    className="flex items-center justify-between border-b border-border/60 py-1.5 text-xs"
-                  >
-                    <span>{b.name}</span>
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                      {b.slug}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-xs text-muted-foreground">—</p>
-            )}
-          </section>
-
-          <Separator />
-
-          <section>
-            <div className="section-label mb-3">Card types</div>
-            {offer.cardTypes.length ? (
-              <div className="flex flex-wrap gap-1.5">
-                {offer.cardTypes.map((c) => (
-                  <Badge
-                    key={c.id}
-                    variant="outline"
-                    className="text-[11px]"
-                  >
-                    {c.name}
-                  </Badge>
-                ))}
+            {offer.merchant && (
+              <div className="flex items-center gap-3 pt-2">
+                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-lg">
+                  {offer.merchant.name.substring(0, 1)}
+                </div>
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Merchant</div>
+                  <div className="font-semibold text-base text-foreground">
+                    {offer.merchant.name}
+                  </div>
+                </div>
               </div>
-            ) : (
-              <p className="text-xs text-muted-foreground">—</p>
             )}
+          </header>
+
+          {offer.imageUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={offer.imageUrl}
+              alt={offer.title}
+              className="aspect-video w-full rounded-3xl object-cover bg-muted"
+              loading="lazy"
+            />
+          )}
+
+          <section className="space-y-4 pt-4">
+            <h2 className="text-xl font-semibold tracking-tight">About this offer</h2>
+            <p className="whitespace-pre-line text-base leading-relaxed text-muted-foreground">
+              {offer.description}
+            </p>
           </section>
+        </div>
+
+        {/* Sidebar: Right Column (spans 4 or 5 columns) */}
+        <aside className="lg:col-span-4 space-y-6">
+          <div className="sticky top-24 bg-card border border-border rounded-3xl p-6 space-y-6">
+            
+            {/* Urgency & Validity */}
+            <div className="space-y-2">
+              {remaining > 0 ? (
+                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm font-semibold">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                  </span>
+                  Ends in {remaining} days
+                </div>
+              ) : (
+                <div className="inline-flex items-center gap-2 bg-destructive/10 text-destructive px-3 py-1.5 rounded-full text-sm font-semibold">
+                  Expired
+                </div>
+              )}
+              <p className="text-sm font-medium text-muted-foreground pt-2">
+                Valid {formatDate(offer.startDate)} – {formatDate(offer.endDate)}
+              </p>
+            </div>
+
+            <Separator />
+
+            {/* Eligibility Hub */}
+            <section className="space-y-4">
+              <h3 className="font-semibold text-foreground">Eligibility</h3>
+              
+              <div className="space-y-3">
+                <div className="text-sm font-medium text-muted-foreground">Banks</div>
+                {offer.banks.length ? (
+                  <ul className="space-y-2">
+                    {offer.banks.map((b) => (
+                      <li
+                        key={b.id}
+                        className="flex items-center gap-2 text-sm text-foreground font-medium"
+                      >
+                        <div className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0" />
+                        <span>{b.name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-muted-foreground">—</p>
+                )}
+              </div>
+
+              <div className="space-y-3 pt-2">
+                <div className="text-sm font-medium text-muted-foreground">Card types</div>
+                {offer.cardTypes.length ? (
+                  <div className="flex flex-wrap gap-2">
+                    {offer.cardTypes.map((c) => (
+                      <Badge
+                        key={c.id}
+                        variant="outline"
+                        className="rounded-lg font-medium bg-background"
+                      >
+                        {c.name}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">—</p>
+                )}
+              </div>
+            </section>
+
+            {/* CTA */}
+            <div className="pt-4">
+              <a href={offer.sourceUrl} target="_blank" rel="noreferrer" className="block w-full">
+                <Button className="w-full rounded-full h-12 text-base font-semibold gap-2">
+                  View official source
+                  <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} strokeWidth={2.5} />
+                </Button>
+              </a>
+            </div>
+
+          </div>
         </aside>
       </div>
 
-      <Disclaimer />
+      <div className="pt-8 border-t border-border mt-12">
+        <Disclaimer />
+      </div>
     </article>
   );
 }

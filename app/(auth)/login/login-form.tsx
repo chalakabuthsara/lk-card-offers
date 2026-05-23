@@ -41,13 +41,10 @@ export function LoginForm() {
     <div className="space-y-6">
       <form
         onSubmit={handleSubmit}
-        className="space-y-4 border border-border bg-card p-6"
+        className="space-y-5 border border-border bg-card p-8 rounded-xl"
       >
-        <div>
-          <Label
-            htmlFor="email"
-            className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
-          >
+        <div className="space-y-2">
+          <Label htmlFor="email" className="text-sm font-medium text-foreground">
             Email
           </Label>
           <Input
@@ -57,13 +54,11 @@ export function LoginForm() {
             required
             autoComplete="email"
             placeholder="you@example.com"
+            className="rounded-[6px] h-11 px-4 bg-transparent"
           />
         </div>
-        <div>
-          <Label
-            htmlFor="password"
-            className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
-          >
+        <div className="space-y-2">
+          <Label htmlFor="password" className="text-sm font-medium text-foreground">
             Password
           </Label>
           <Input
@@ -73,20 +68,23 @@ export function LoginForm() {
             required
             autoComplete="current-password"
             placeholder="••••••"
+            className="rounded-[6px] h-11 px-4 bg-transparent"
           />
         </div>
         {error && (
-          <div className="border border-destructive/40 bg-destructive/5 px-3 py-2 text-[11px] text-destructive">
+          <div className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive">
             {error}
           </div>
         )}
-        <Button type="submit" disabled={pending} className="w-full" size="lg">
-          {pending ? "Signing in…" : "Sign in →"}
-        </Button>
+        <div className="pt-2">
+          <Button type="submit" disabled={pending} className="w-full rounded-full h-12 text-base font-semibold">
+            {pending ? "Signing in…" : "Sign in"}
+          </Button>
+        </div>
       </form>
-      <p className="text-center text-[11px] text-muted-foreground">
+      <p className="text-center text-sm text-muted-foreground">
         New here?{" "}
-        <Link href="/register" className="text-foreground underline-offset-4 hover:underline">
+        <Link href="/register" className="text-foreground underline-offset-4 font-medium hover:underline">
           Create an account
         </Link>
       </p>

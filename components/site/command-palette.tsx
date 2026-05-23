@@ -167,11 +167,13 @@ export function CommandPalette() {
         onClick={() => setOpen(true)}
         title="Search (⌘K)"
         aria-label="Open search"
-        className="hidden h-9 items-center gap-2 border border-border bg-card px-2.5 text-[11px] text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground md:flex"
+        className="hidden w-64 h-9 items-center justify-between rounded-full border border-border bg-card px-3 text-[12px] text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground md:flex"
       >
-        <HugeiconsIcon icon={Search01Icon} size={14} strokeWidth={1.75} />
-        <span>Search</span>
-        <span className="ml-2 num rounded-none border border-border/80 px-1.5 py-0.5 text-[10px] uppercase tracking-wider">
+        <div className="flex items-center gap-2">
+          <HugeiconsIcon icon={Search01Icon} size={14} strokeWidth={1.75} />
+          <span>Search</span>
+        </div>
+        <span className="num rounded-full border border-border/80 px-1.5 py-0.5 text-[10px] uppercase tracking-wider">
           ⌘K
         </span>
       </button>
@@ -180,7 +182,7 @@ export function CommandPalette() {
         onClick={() => setOpen(true)}
         title="Search"
         aria-label="Open search"
-        className="flex h-9 w-9 items-center justify-center border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground md:hidden"
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground md:hidden"
       >
         <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={1.75} />
       </button>
@@ -188,14 +190,14 @@ export function CommandPalette() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           showCloseButton={false}
-          className="top-[15%] left-1/2 max-w-xl translate-y-0 gap-0 p-0 sm:max-w-xl"
+          className="top-[15%] left-1/2 max-w-xl translate-y-0 gap-0 p-0 sm:max-w-xl sm:rounded-3xl overflow-hidden border-border shadow-2xl"
         >
-          <DialogHeader className="border-b border-border px-3 py-2">
+          <DialogHeader className="border-b border-border px-4 py-3">
             <DialogTitle className="sr-only">Sitewide search</DialogTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <HugeiconsIcon
                 icon={Search01Icon}
-                size={14}
+                size={18}
                 strokeWidth={1.75}
                 className="text-muted-foreground"
               />
@@ -205,7 +207,7 @@ export function CommandPalette() {
                 onChange={(e) => setQ(e.target.value)}
                 onKeyDown={onInputKey}
                 placeholder="Search offers, merchants, banks, categories…"
-                className="h-9 flex-1 bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none"
+                className="h-10 flex-1 bg-transparent text-base placeholder:text-muted-foreground focus:outline-none"
               />
               <span className="num text-[10px] uppercase tracking-wider text-muted-foreground">
                 {loading ? "…" : "ESC"}
@@ -224,7 +226,7 @@ export function CommandPalette() {
                 <span className="text-foreground">&ldquo;{q}&rdquo;</span>.
               </div>
             ) : (
-              <ul className="py-1" role="listbox">
+              <ul className="p-2 space-y-1" role="listbox">
                 {(["offer", "merchant", "bank", "category"] as const).map(
                   (kind) => {
                     const rows = grouped[kind];
@@ -246,8 +248,8 @@ export function CommandPalette() {
                                   onMouseEnter={() => setActive(idx)}
                                   className={
                                     isActive
-                                      ? "flex items-center justify-between gap-3 bg-primary/10 px-3 py-1.5 text-xs text-foreground"
-                                      : "flex items-center justify-between gap-3 px-3 py-1.5 text-xs text-foreground hover:bg-muted/60"
+                                      ? "flex items-center justify-between gap-3 rounded-xl bg-primary/10 px-3 py-2.5 text-sm text-foreground"
+                                      : "flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground hover:bg-muted/60"
                                   }
                                 >
                                   <span className="truncate">

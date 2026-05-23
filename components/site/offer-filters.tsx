@@ -64,36 +64,38 @@ export function OfferFilters() {
 
   return (
     <aside className="space-y-6">
-      <div className="border border-border bg-card">
-        <button
-          type="button"
-          onClick={() => setMobileOpen((v) => !v)}
-          className="panel-header w-full lg:cursor-default lg:pointer-events-none"
-          aria-expanded={mobileOpen}
-        >
-          <span className="flex items-center gap-2">
+      <div className="border border-border bg-card rounded-xl overflow-hidden">
+        <div className="panel-header w-full flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => setMobileOpen((v) => !v)}
+            className="flex items-center gap-2 lg:cursor-default lg:pointer-events-none"
+            aria-expanded={mobileOpen}
+          >
             Filters
             {activeCount > 0 && (
-              <span className="rounded-none bg-primary px-1.5 py-px text-[10px] text-primary-foreground">
+              <span className="rounded-full bg-primary px-1.5 py-px text-[10px] text-primary-foreground">
                 {activeCount}
               </span>
             )}
-          </span>
-          <span className="flex items-center gap-2 lg:hidden">
-            <span className="num text-foreground">{activeCount.toString().padStart(2, "0")}</span>
             <HugeiconsIcon
               icon={ArrowDown01Icon}
               strokeWidth={2}
               className={cn(
-                "size-4 transition-transform",
+                "size-4 transition-transform lg:hidden",
                 mobileOpen && "rotate-180",
               )}
             />
-          </span>
-          <span className="num hidden text-foreground lg:inline">
-            {activeCount.toString().padStart(2, "0")}
-          </span>
-        </button>
+          </button>
+          <button
+            type="button"
+            onClick={reset}
+            disabled={pending || activeCount === 0}
+            className="text-xs font-medium text-primary hover:underline disabled:opacity-50 disabled:pointer-events-none"
+          >
+            Reset filters
+          </button>
+        </div>
         <div className={cn("space-y-6 p-4", !mobileOpen && "hidden lg:block")}>
           <div className="space-y-2">
             <div className="section-label">Search</div>
@@ -112,6 +114,7 @@ export function OfferFilters() {
                 name="q"
                 defaultValue={q}
                 placeholder="Title or description…"
+                className="rounded-[6px]"
               />
             </form>
           </div>
@@ -127,7 +130,7 @@ export function OfferFilters() {
                 })
               }
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full rounded-[6px]">
                 <SelectValue placeholder="All categories">
                   {(value: string) => {
                     if (!value || value === CATEGORY_ALL) return "All categories";
@@ -168,6 +171,7 @@ export function OfferFilters() {
                         <Checkbox
                           checked={selectedBanks.has(b.id)}
                           onCheckedChange={() => toggle("bank", b.id)}
+                          className="rounded-[6px]"
                         />
                         <span>{b.name}</span>
                       </label>
@@ -192,6 +196,7 @@ export function OfferFilters() {
                         <Checkbox
                           checked={selectedCardTypes.has(c.id)}
                           onCheckedChange={() => toggle("cardType", c.id)}
+                          className="rounded-[6px]"
                         />
                         <span className="flex-1">{c.name}</span>
                         <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -202,17 +207,7 @@ export function OfferFilters() {
             </div>
           </div>
         </div>
-        <div className={cn("border-t border-border p-3", !mobileOpen && "hidden lg:block")}>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={reset}
-            disabled={pending || activeCount === 0}
-            className="w-full"
-          >
-            Reset all filters
-          </Button>
-        </div>
+
       </div>
     </aside>
   );
