@@ -70,6 +70,7 @@ export function CommandPalette() {
   const [hits, setHits] = useState<SearchHit[]>([]);
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState(0);
+  const listboxId = "command-palette-listbox";
   const inputRef = useRef<HTMLInputElement>(null);
   const reqId = useRef(0);
 
@@ -90,9 +91,11 @@ export function CommandPalette() {
   // Reset state when closed
   useEffect(() => {
     if (!open) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setQ("");
       setHits([]);
       setActive(0);
+      /* eslint-enable react-hooks/set-state-in-effect */
     } else {
       // focus input on open
       requestAnimationFrame(() => inputRef.current?.focus());
@@ -104,8 +107,10 @@ export function CommandPalette() {
     if (!open) return;
     const term = q.trim();
     if (term.length < 2) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setHits([]);
       setLoading(false);
+      /* eslint-enable react-hooks/set-state-in-effect */
       return;
     }
     setLoading(true);
@@ -208,6 +213,8 @@ export function CommandPalette() {
                 onKeyDown={onInputKey}
                 placeholder="Search offers, merchants, banks, categories…"
                 className="h-10 flex-1 bg-transparent text-base placeholder:text-muted-foreground focus:outline-none"
+                aria-controls={listboxId}
+                aria-activedescendant={active !== -1 && hits.length > 0 ? `${listboxId}-option-${active}` : undefined}
               />
               <span className="num text-[10px] uppercase tracking-wider text-muted-foreground">
                 {loading ? "…" : "ESC"}
@@ -226,23 +233,27 @@ export function CommandPalette() {
                 <span className="text-foreground">&ldquo;{q}&rdquo;</span>.
               </div>
             ) : (
-              <ul className="p-2 space-y-1" role="listbox">
+              <ul className="p-2 space-y-1" role="listbox" id={listboxId}>
                 {(["offer", "merchant", "bank", "category"] as const).map(
                   (kind) => {
                     const rows = grouped[kind];
                     if (rows.length === 0) return null;
                     return (
-                      <li key={kind} className="mb-1">
+                      <li key={kind} className="mb-1" role="presentation">
                         <div className="section-label px-3 pt-2 pb-1">
                           {KIND_LABEL[kind]}
                         </div>
-                        <ul>
+                        <ul role="presentation">
                           {rows.map((hit) => {
                             const idx = hits.indexOf(hit);
                             const isActive = idx === active;
+                            const optionId = `${listboxId}-option-${idx}`;
                             return (
-                              <li key={`${kind}:${hit.id}`}>
+                              <li key={`${kind}:${hit.id}`} role="presentation">
                                 <Link
+                                  id={optionId}
+                                  role="option"
+                                  aria-selected={isActive}
                                   href={hitHref(hit)}
                                   onClick={() => setOpen(false)}
                                   onMouseEnter={() => setActive(idx)}

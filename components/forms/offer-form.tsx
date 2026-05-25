@@ -148,7 +148,7 @@ export function OfferForm({
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [draftSavedAt, setDraftSavedAt] = useState<number | null>(
-    loadedDraft ? Date.now() : null,
+    () => (loadedDraft ? Date.now() : null),
   );
 
   const formRef = useRef<HTMLFormElement>(null);

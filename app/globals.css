@@ -192,3 +192,10 @@
   66% { transform: translate(-20px, 20px) scale(0.9) rotate(-10deg); }
   100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-blob {
+    animation: none !important;
+  }
+}

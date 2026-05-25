@@ -3,7 +3,6 @@ import Link from "next/link";
 import { listOffers } from "@/lib/queries-server/offers";
 import { OfferCard } from "@/components/site/offer-card";
 import { OfferFilters } from "@/components/site/offer-filters";
-import { Disclaimer } from "@/components/site/disclaimer";
 import { Pagination } from "@/components/site/pagination";
 
 export const revalidate = 300;
@@ -119,11 +118,10 @@ export default async function OffersPage({
                 </span>
               </div>
               <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                {items.map((offer, i) => (
+                {items.map((offer) => (
                   <OfferCard
                     key={offer.id}
                     offer={offer}
-                    index={offset + i + 1}
                   />
                 ))}
               </div>

@@ -224,6 +224,14 @@ export default async function OfferDetailPage({
                   </span>
                   Ends in {remaining} days
                 </div>
+              ) : remaining === 0 ? (
+                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm font-semibold">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                  </span>
+                  Ends today
+                </div>
               ) : (
                 <div className="inline-flex items-center gap-2 bg-destructive/10 text-destructive px-3 py-1.5 rounded-full text-sm font-semibold">
                   Expired

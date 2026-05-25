@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listOffers } from "@/lib/queries-server/offers";
-import { getBankCounts, getCategoryCounts, getHomeStats } from "@/lib/queries-server/home";
+import { getBankCounts, getCategoryCounts } from "@/lib/queries-server/home";
 import { OfferCard } from "@/components/site/offer-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,8 +29,7 @@ export default async function HomePage() {
   const now = new Date();
   const sevenDaysOut = new Date(now.getTime() + SEVEN_DAYS_MS).toISOString().slice(0, 10);
 
-  const [, categories, banks, latest, endingSoon] = await Promise.all([
-    getHomeStats(),
+  const [categories, banks, latest, endingSoon] = await Promise.all([
     getCategoryCounts(),
     getBankCounts(),
     listOffers({ pageSize: 12 }),
@@ -55,7 +54,7 @@ export default async function HomePage() {
           A community-curated catalog of credit and debit card promotions from Sri Lankan banks. No scraping, no expired clutter.
         </p>
         <div className="animate-fade-up [animation-delay:300ms]">
-          <form action="/offers" className="mx-auto mt-8 flex max-w-md items-center gap-2 bg-card rounded-full p-2 border border-border shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-opacity-50 transition-all">
+          <form action="/offers" className="mx-auto mt-8 flex max-w-md items-center gap-2 bg-card rounded-full p-2 border border-border shadow-sm focus-within:ring-2 focus-within:ring-ring/50 transition-all">
             <div className="pl-4 flex items-center justify-center text-muted-foreground">
               <HugeiconsIcon icon={Search01Icon} size={18} strokeWidth={1.75} />
             </div>
@@ -96,8 +95,8 @@ export default async function HomePage() {
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {latest.items.map((offer, i) => (
-              <OfferCard key={offer.id} offer={offer} index={i + 1} />
+            {latest.items.map((offer) => (
+              <OfferCard key={offer.id} offer={offer} />
             ))}
           </div>
         )}
@@ -110,8 +109,8 @@ export default async function HomePage() {
             <h2 className="text-2xl font-semibold tracking-tight">Ending this week</h2>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {endingSoon.items.map((offer, i) => (
-              <OfferCard key={offer.id} offer={offer} index={i + 1} />
+            {endingSoon.items.map((offer) => (
+              <OfferCard key={offer.id} offer={offer} />
             ))}
           </div>
         </section>

@@ -72,7 +72,12 @@ export function LoginForm() {
           />
         </div>
         {error && (
-          <div className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive">
+          <div
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
+          >
             {error}
           </div>
         )}
